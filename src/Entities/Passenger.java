@@ -1,16 +1,19 @@
 package Entities;
 
-public class Passenger {
-    private String name;
-    private int age;
-    private String passportNumber;
+public class Passenger extends Entity {
 
     // Constructor
-    public Passenger(String name, int age, String passportNumber) {
+    public Passenger(int id, String name, int age, String passportNumber) {
+        super(id);
         this.name = name;
         this.age = age;
         this.passportNumber = passportNumber;
     }
+
+    // Attributes
+    private String name;
+    private int age;
+    private String passportNumber;
 
     // Getters and Setters
     public String getName() {
@@ -39,6 +42,6 @@ public class Passenger {
 
     @Override
     public String toString() {
-        return "Passenger[Name: " + name + ", Age: " + age + ", Passport: " + passportNumber + "]";
+        return "Passenger[ID: " + getId() + ", Name: " + name + ", Age: " + age + ", Passport: " + passportNumber + "]";
     }
 }
