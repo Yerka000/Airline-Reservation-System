@@ -1,8 +1,9 @@
 package Entities;
 
 public class Reservation {
-    private Passenger passenger;
-    private Flight flight;
+    // Default constructor
+    public Reservation(){
+    }
 
     // Constructor
     public Reservation(Passenger passenger, Flight flight) {
@@ -14,6 +15,10 @@ public class Reservation {
             throw new IllegalStateException("Reservation failed. No seats available.");
         }
     }
+
+    // Attributes
+    private Passenger passenger;
+    private Flight flight;
 
     // Getters
     public Passenger getPassenger() {
