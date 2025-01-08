@@ -1,30 +1,50 @@
-import Entities.Passenger;
-import Entities.Flight;
-import Entities.Reservation;
+import Entities.*;
+import Services.DataProvider;
+import Services.FlightReservationService;
+
+import java.util.List;
 
 class Main {
     public static void main(String[] args) {
-        // Create flights
-        Flight flight1 = new Flight("FS 7361", "Turkestan", "Astana", 146);
-        Flight flight2 = new Flight("FS 7362", "Astana", "Turkestan", 146);
+        // Initialize DataProvider and Service
+        DataProvider dataProvider = new DataProvider();
+        FlightReservationService service = new FlightReservationService();
 
-        // Create passengers
-        Passenger passenger1 = new Passenger("Yerkin Yerassyl", 19, "049900900");
-        Passenger passenger2 = new Passenger("Yerkin Kobey", 23, "049900901");
+        // Load data
+        List<Flight> flights = dataProvider.createFlights();
+        List<Passenger> passengers = dataProvider.createPassengers();
+        List<Reservation> reservations = dataProvider.createReservations(passengers, flights);
 
-        // Make reservations
-        Reservation reservation1 = new Reservation(passenger1, flight1);
-        Reservation reservation2 = new Reservation(passenger2, flight2);
+        // Print initial reservations
+        System.out.println("Initial Reservations:");
+        service.printReservations(reservations);
 
-        // Output reservations
-        System.out.println(reservation1);
-        System.out.println(reservation2);
+        // Fill a flight to capacity
+        for (int i = 0; i < 98; i++) {
+            flights.get(0).bookSeat();
+        }
 
-        // Compare flights
-        System.out.println("Are flight1 and flight2 the same? " + flight1.equals(flight2));
+        // Test booking when no seats are available
+        try {
+            Reservation reservation3 = new Reservation(3, passengers.get(2), flights.get(0));
+            System.out.println(reservation3);
+        } catch (IllegalStateException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
 
-        // Output flight details
-        System.out.println(flight1);
-        System.out.println(flight2);
+        // Filter available flights
+        System.out.println("\nAvailable Flights:");
+        List<Flight> availableFlights = service.filterAvailableFlights(flights);
+        service.printFlights(availableFlights);
+
+        // Find a passenger by name
+        System.out.println("\nSearching for Passenger 'Yerassyl':");
+        Passenger foundPassenger = service.findPassengerByName(passengers, "Yerassyl");
+        System.out.println(foundPassenger);
+
+        // Sort passengers by age
+        System.out.println("\nPassengers Sorted by Age:");
+        List<Passenger> sortedPassengers = service.sortPassengersByAge(passengers);
+        service.printPassengers(sortedPassengers);
     }
 }
