@@ -1,18 +1,16 @@
 package Entities;
 
-public class Reservation {
-    // Default constructor
-    public Reservation(){
-    }
+public class Reservation extends Entity {
 
     // Constructor
-    public Reservation(Passenger passenger, Flight flight) {
+    public Reservation(int id, Passenger passenger, Flight flight) {
+        super(id);
         if (flight.isAvailable()) {
             this.passenger = passenger;
             this.flight = flight;
             flight.bookSeat();
         } else {
-            throw new IllegalStateException("Reservation failed. No seats available.");
+            throw new IllegalStateException("No seats available for reservation.");
         }
     }
 
@@ -31,6 +29,6 @@ public class Reservation {
 
     @Override
     public String toString() {
-        return "Reservation[" + passenger + " -> " + flight + "]";
+        return "Reservation[ID: " + getId() + ", Passenger: " + passenger + ", Flight: " + flight + "]";
     }
 }
