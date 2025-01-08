@@ -1,20 +1,23 @@
 package Entities;
 
-public class Flight {
+public class Flight extends Entity {
+
+    // Constructor
+    public Flight(int id, String flightNumber, String origin, String destination, int capacity) {
+        super(id);
+        this.flightNumber = flightNumber;
+        this.origin = origin;
+        this.destination = destination;
+        this.capacity = capacity;
+        this.bookedSeats = 0;
+    }
+
+    // attributes
     private String flightNumber;
     private String origin;
     private String destination;
     private int capacity;
     private int bookedSeats;
-
-    // Constructor
-    public Flight(String flightNumber, String origin, String destination, int capacity) {
-        this.flightNumber = flightNumber;
-        this.origin = origin;
-        this.destination = destination;
-        this.capacity = capacity;
-        this.bookedSeats = 0; // Initially, no seats are booked
-    }
 
     // Getters and Setters
     public String getFlightNumber() {
@@ -52,19 +55,22 @@ public class Flight {
         return bookedSeats;
     }
 
-    public void bookSeat() {
-        if (bookedSeats < capacity) {
-            bookedSeats++;
-        } else {
-            System.out.println("No seats available on this flight.");
-        }
-    }
+    // methods
     public boolean isAvailable() {
         return bookedSeats < capacity;
     }
 
+    public void bookSeat() {
+        if (isAvailable()) {
+            bookedSeats++;
+        } else {
+            throw new IllegalStateException("No seats available.");
+        }
+    }
+
     @Override
     public String toString() {
-        return "Flight[" + flightNumber + ", From: " + origin + ", To: " + destination + ", Capacity: " + capacity + ", Booked: " + bookedSeats + "]";
+        return "Flight[ID: " + getId() + ", Number: " + flightNumber + ", From: " + origin +
+                ", To: " + destination + ", Capacity: " + capacity + ", Booked: " + bookedSeats + "]";
     }
 }
